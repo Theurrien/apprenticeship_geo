@@ -67,7 +67,7 @@ async function handleMessage(params: WorkerParams) {
     );
     if (stops.length > 0) {
       return {
-        id: stops[0].sourceId,
+        id: stops[0].id,
         name: stops[0].name,
         lat: stops[0].lat,
         lng: stops[0].lon,
@@ -85,7 +85,7 @@ async function handleMessage(params: WorkerParams) {
       .build();
 
     const result = router!.route(query);
-    const startMinutes = Time.fromDate(departureDate).toMinutes();
+    const startSeconds = Time.fromDate(departureDate).toSeconds();
     const arrivals: Array<{
       stopId: string;
       arrivalMinutes: number;
@@ -94,15 +94,16 @@ async function handleMessage(params: WorkerParams) {
       name: string;
     }> = [];
 
-    for (const [stopId, reachingTime] of result.routingState.earliestArrivals) {
-      const duration = reachingTime.arrival.toMinutes() - startMinutes;
+    for (const [stopId, reachingTime] of result.earliestArrivals) {
+      const durationSeconds = reachingTime.time.toSeconds() - startSeconds;
+      const durationMinutes = durationSeconds / 60;
 
-      if (duration <= params.maxDurationMinutes && duration >= 0) {
+      if (durationMinutes <= params.maxDurationMinutes && durationMinutes >= 0) {
         const stop = stopsIndex!.findStopById(stopId);
         if (stop && stop.lat && stop.lon) {
           arrivals.push({
-            stopId: stop.sourceId || stopId,
-            arrivalMinutes: duration,
+            stopId: stop.id,
+            arrivalMinutes: Math.round(durationMinutes),
             lat: stop.lat,
             lng: stop.lon,
             name: stop.name || '',
