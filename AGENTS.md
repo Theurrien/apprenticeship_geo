@@ -40,7 +40,7 @@ This runs `npm run build` then pushes the `dist/` folder to the `gh-pages` branc
 Edit `package.json` and replace `yourusername` with your actual GitHub username:
 
 ```json
-"homepage": "https://YOURUSERNAME.github.io/apprenticeship-map"
+"homepage": "https://Theurrien.github.io/apprenticeship-map"
 ```
 
 Then rebuild and redeploy:
@@ -52,7 +52,7 @@ npm run deploy
 
 ```bash
 gh browse
-# Or visit: https://YOURUSERNAME.github.io/apprenticeship-map/
+# Or visit: https://Theurrien.github.io/apprenticeship-map/
 ```
 
 ---
