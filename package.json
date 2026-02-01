@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://yourusername.github.io/apprenticeship-map",
+  "homepage": "https://Theurrien.github.io/apprenticeship_geo",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
