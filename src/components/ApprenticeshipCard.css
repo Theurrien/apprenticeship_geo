@@ -1,0 +1,81 @@
+.apprenticeship-card {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 2px solid transparent;
+}
+
+.apprenticeship-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.apprenticeship-card.selected {
+  border-color: #2196f3;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.travel-time {
+  background: #e3f2fd;
+  color: #1976d2;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.positions {
+  color: #666;
+  font-size: 12px;
+}
+
+.job-title {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.company-name {
+  margin: 0 0 4px 0;
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
+.location {
+  margin: 0 0 8px 0;
+  font-size: 13px;
+  color: #888;
+}
+
+.nearest-stop {
+  margin: 0 0 8px 0;
+  font-size: 12px;
+  color: #999;
+  font-style: italic;
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.contact-link {
+  font-size: 12px;
+  color: #2196f3;
+  text-decoration: none;
+}
+
+.contact-link:hover {
+  text-decoration: underline;
+}
