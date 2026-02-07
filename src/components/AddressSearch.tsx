@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { searchAddress, formatSearchResult } from '../services/geocoding';
 import type { GeoAdminSearchResult } from '../types';
 import './AddressSearch.css';
@@ -12,6 +12,8 @@ export function AddressSearch({ onSelect }: AddressSearchProps) {
   const [results, setResults] = useState<GeoAdminSearchResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showResults, setShowResults] = useState(false);
+  const skipSearchRef = useRef(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const search = useCallback(async (text: string) => {
     if (text.length < 3) {
@@ -27,6 +29,11 @@ export function AddressSearch({ onSelect }: AddressSearchProps) {
   }, []);
 
   useEffect(() => {
+    if (skipSearchRef.current) {
+      skipSearchRef.current = false;
+      return;
+    }
+
     const timer = setTimeout(() => {
       search(query);
     }, 300);
@@ -34,15 +41,28 @@ export function AddressSearch({ onSelect }: AddressSearchProps) {
     return () => clearTimeout(timer);
   }, [query, search]);
 
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        setShowResults(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   const handleSelect = (result: GeoAdminSearchResult) => {
     const label = formatSearchResult(result);
+    skipSearchRef.current = true;
     setQuery(label);
     setShowResults(false);
+    setResults([]);
     onSelect(result.attrs.lat, result.attrs.lon, label);
   };
 
   return (
-    <div className="address-search">
+    <div className="address-search" ref={containerRef}>
       <input
         type="text"
         value={query}

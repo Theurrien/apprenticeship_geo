@@ -14,8 +14,10 @@ export function useApprenticeships() {
           throw new Error('Failed to load apprenticeship data');
         }
         const data = await response.json();
+        console.log('[Apprenticeships] Loaded', data.length, 'entries');
         setApprenticeships(data);
       } catch (err) {
+        console.error('[Apprenticeships] Load error:', err);
         setError(err instanceof Error ? err.message : 'Unknown error');
       } finally {
         setIsLoading(false);

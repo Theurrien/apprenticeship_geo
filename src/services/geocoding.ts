@@ -24,6 +24,6 @@ export async function searchAddress(query: string): Promise<GeoAdminSearchResult
 }
 
 export function formatSearchResult(result: GeoAdminSearchResult): string {
-  // Remove HTML tags from label
-  return result.attrs.label.replace(/<\/?b>/g, '');
+  // Remove all HTML tags from label
+  return result.attrs.label.replace(/<[^>]*>/g, '');
 }

@@ -22,6 +22,7 @@ export function useReachability(
 
   const compute = useCallback(async () => {
     if (!startPoint || apprenticeships.length === 0) {
+      console.log('[Reachability] Skipping:', { startPoint: !!startPoint, apprenticeships: apprenticeships.length });
       setReachable([]);
       setIsochrone(null);
       return;
@@ -32,7 +33,9 @@ export function useReachability(
 
     try {
       // Find nearest PT stop to start point
+      console.log('[Reachability] Finding nearest stop to', startPoint);
       const nearestStop = await findNearestStop(startPoint.lat, startPoint.lng);
+      console.log('[Reachability] Nearest stop:', nearestStop);
 
       if (!nearestStop) {
         setError('Aucun arrêt de transport public trouvé à proximité');
@@ -44,8 +47,10 @@ export function useReachability(
       // Compute arrivals at all reachable stops
       const now = new Date();
       now.setHours(8, 0, 0, 0); // Use 8:00 AM as default departure
+      console.log('[Reachability] Computing arrivals from', nearestStop.name, 'at', now.toISOString(), 'max', maxMinutes, 'min');
 
       const arrivals = await computeArrivals(nearestStop.id, now, maxMinutes);
+      console.log('[Reachability] Arrivals:', arrivals.length, 'stops reachable');
 
       // Find reachable apprenticeships
       const reachableResults = findReachableApprenticeships(
@@ -53,6 +58,7 @@ export function useReachability(
         apprenticeships,
         maxMinutes
       );
+      console.log('[Reachability] Reachable apprenticeships:', reachableResults.length, 'of', apprenticeships.length);
 
       // Create isochrone polygon
       const isochronePolygon = createIsochronePolygon(arrivals, maxMinutes);
