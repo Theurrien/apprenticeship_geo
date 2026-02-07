@@ -21,11 +21,10 @@
   margin: 0 auto;
 }
 
-.app-title {
-  margin: 0;
-  font-size: 20px;
-  color: #333;
-  white-space: nowrap;
+.app-logo {
+  height: 48px;
+  width: auto;
+  flex-shrink: 0;
 }
 
 .main-content {
@@ -52,9 +51,9 @@
     gap: 12px;
   }
 
-  .app-title {
-    font-size: 18px;
-    text-align: center;
+  .app-logo {
+    height: 40px;
+    align-self: center;
   }
 
   .main-content {

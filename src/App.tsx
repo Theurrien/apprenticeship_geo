@@ -28,7 +28,11 @@ function App() {
     <div className="app">
       <div className="controls-bar">
         <div className="controls-content">
-          <h1 className="app-title">Carte des Apprentissages</h1>
+          <img
+            src={`${import.meta.env.BASE_URL}assets/logo_fr.jpeg`}
+            alt="Carte des Métiers Suisse"
+            className="app-logo"
+          />
           <AddressSearch onSelect={handleAddressSelect} />
           <TimeSlider value={maxMinutes} onChange={setMaxMinutes} />
         </div>
