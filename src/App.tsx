@@ -7,6 +7,11 @@ import { useApprenticeships } from './hooks/useApprenticeships';
 import { useReachability } from './hooks/useReachability';
 import './App.css';
 
+const isGerman = navigator.language.startsWith('de');
+const base = import.meta.env.BASE_URL;
+const logoText = isGerman ? `${base}assets/logo_text_de.png` : `${base}assets/logo_text_fr.png`;
+const logoAlt = isGerman ? 'BerufsKarte Schweiz' : 'Carte des Métiers Suisse';
+
 function App() {
   const [startPoint, setStartPoint] = useState<{ lat: number; lng: number } | null>(null);
   const [maxMinutes, setMaxMinutes] = useState(30);
@@ -35,8 +40,8 @@ function App() {
               className="app-logo-icon"
             />
             <img
-              src={`${import.meta.env.BASE_URL}assets/logo_text_fr.png`}
-              alt="Carte des Métiers Suisse"
+              src={logoText}
+              alt={logoAlt}
               className="app-logo-text"
             />
           </div>
