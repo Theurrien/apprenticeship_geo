@@ -8,7 +8,6 @@
 .controls-bar {
   position: relative;
   background: white;
-  border-bottom: 1px solid #e0e0e0;
   padding: 16px 24px;
   z-index: 100;
 }
@@ -22,7 +21,7 @@
 }
 
 .app-logo {
-  height: 48px;
+  height: 72px;
   width: auto;
   flex-shrink: 0;
 }
