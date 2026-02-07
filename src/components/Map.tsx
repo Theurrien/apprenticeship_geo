@@ -44,18 +44,25 @@ const selectedApprenticeshipIcon = L.divIcon({
 });
 
 interface MapViewUpdaterProps {
-  center: [number, number] | null;
-  zoom?: number;
+  startPoint: { lat: number; lng: number } | null;
+  results: ReachableApprenticeship[];
 }
 
-function MapViewUpdater({ center, zoom = 13 }: MapViewUpdaterProps) {
+function MapViewUpdater({ startPoint, results }: MapViewUpdaterProps) {
   const map = useMap();
 
   useEffect(() => {
-    if (center) {
-      map.setView(center, zoom);
+    if (startPoint && results.length > 0) {
+      // Fit bounds to show start point + all result markers
+      const points: L.LatLngExpression[] = [
+        [startPoint.lat, startPoint.lng],
+        ...results.map(r => [r.lat, r.lng] as [number, number]),
+      ];
+      map.fitBounds(L.latLngBounds(points), { padding: [30, 30] });
+    } else if (startPoint) {
+      map.setView([startPoint.lat, startPoint.lng], 13);
     }
-  }, [center, zoom, map]);
+  }, [startPoint, results, map]);
 
   return null;
 }
@@ -90,9 +97,7 @@ export function Map({ startPoint, results, selectedId, onSelectApprenticeship, i
         attribution='&copy; <a href="https://www.swisstopo.admin.ch">swisstopo</a>'
       />
 
-      <MapViewUpdater
-        center={startPoint ? [startPoint.lat, startPoint.lng] : null}
-      />
+      <MapViewUpdater startPoint={startPoint} results={results} />
 
       {isochrone && (
         <GeoJSON
