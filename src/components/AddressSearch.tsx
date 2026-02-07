@@ -73,7 +73,7 @@ export function AddressSearch({ onSelect }: AddressSearchProps) {
       />
       {isLoading && <span className="loading-indicator">...</span>}
       {showResults && results.length > 0 && (
-        <ul className="results-list">
+        <ul className="search-results-list">
           {results.map((result, index) => (
             <li
               key={index}
