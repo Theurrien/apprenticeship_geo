@@ -28,11 +28,18 @@ function App() {
     <div className="app">
       <div className="controls-bar">
         <div className="controls-content">
-          <img
-            src={`${import.meta.env.BASE_URL}assets/logo_fr.jpeg`}
-            alt="Carte des Métiers Suisse"
-            className="app-logo"
-          />
+          <div className="app-logo">
+            <img
+              src={`${import.meta.env.BASE_URL}assets/logo_only.png`}
+              alt=""
+              className="app-logo-icon"
+            />
+            <img
+              src={`${import.meta.env.BASE_URL}assets/logo_text_fr.png`}
+              alt="Carte des Métiers Suisse"
+              className="app-logo-text"
+            />
+          </div>
           <AddressSearch onSelect={handleAddressSelect} />
           <TimeSlider value={maxMinutes} onChange={setMaxMinutes} />
         </div>

@@ -21,9 +21,20 @@
 }
 
 .app-logo {
-  height: 72px;
-  width: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   flex-shrink: 0;
+}
+
+.app-logo-icon {
+  height: 56px;
+  width: auto;
+}
+
+.app-logo-text {
+  height: 36px;
+  width: auto;
 }
 
 .main-content {
@@ -51,8 +62,15 @@
   }
 
   .app-logo {
-    height: 40px;
     align-self: center;
+  }
+
+  .app-logo-icon {
+    height: 44px;
+  }
+
+  .app-logo-text {
+    height: 28px;
   }
 
   .main-content {
