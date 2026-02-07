@@ -46,23 +46,39 @@ const selectedApprenticeshipIcon = L.divIcon({
 interface MapViewUpdaterProps {
   startPoint: { lat: number; lng: number } | null;
   results: ReachableApprenticeship[];
+  selectedResult: ReachableApprenticeship | null;
 }
 
-function MapViewUpdater({ startPoint, results }: MapViewUpdaterProps) {
+function MapViewUpdater({ startPoint, results, selectedResult }: MapViewUpdaterProps) {
   const map = useMap();
+  const hasInitialFit = useRef(false);
 
   useEffect(() => {
-    if (startPoint && results.length > 0) {
-      // Fit bounds to show start point + all result markers
+    if (startPoint && results.length > 0 && !hasInitialFit.current) {
+      // Fit bounds to show start point + all result markers (only on first load)
       const points: L.LatLngExpression[] = [
         [startPoint.lat, startPoint.lng],
         ...results.map(r => [r.lat, r.lng] as [number, number]),
       ];
       map.fitBounds(L.latLngBounds(points), { padding: [30, 30] });
-    } else if (startPoint) {
+      hasInitialFit.current = true;
+    } else if (startPoint && results.length === 0) {
       map.setView([startPoint.lat, startPoint.lng], 13);
+      hasInitialFit.current = false;
     }
   }, [startPoint, results, map]);
+
+  // Reset fit flag when start point changes
+  useEffect(() => {
+    hasInitialFit.current = false;
+  }, [startPoint]);
+
+  // Pan to selected marker when card is clicked
+  useEffect(() => {
+    if (selectedResult) {
+      map.panTo([selectedResult.lat, selectedResult.lng], { animate: true });
+    }
+  }, [selectedResult, map]);
 
   return null;
 }
@@ -97,7 +113,11 @@ export function Map({ startPoint, results, selectedId, onSelectApprenticeship, i
         attribution='&copy; <a href="https://www.swisstopo.admin.ch">swisstopo</a>'
       />
 
-      <MapViewUpdater startPoint={startPoint} results={results} />
+      <MapViewUpdater
+        startPoint={startPoint}
+        results={results}
+        selectedResult={results.find(r => r.id === selectedId) || null}
+      />
 
       {isochrone && (
         <GeoJSON

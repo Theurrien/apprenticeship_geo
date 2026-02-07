@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import type { ReachableApprenticeship } from '../types';
 import { ApprenticeshipCard } from './ApprenticeshipCard';
 import './ResultsPanel.css';
@@ -11,6 +12,17 @@ interface ResultsPanelProps {
 }
 
 export function ResultsPanel({ results, selectedId, onSelect, isLoading, error }: ResultsPanelProps) {
+  const cardRefs = useRef<Map<string, HTMLDivElement>>(new Map());
+
+  useEffect(() => {
+    if (selectedId) {
+      const el = cardRefs.current.get(selectedId);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+  }, [selectedId]);
+
   if (isLoading) {
     return (
       <div className="results-panel">
@@ -40,12 +52,19 @@ export function ResultsPanel({ results, selectedId, onSelect, isLoading, error }
           </p>
         ) : (
           results.map((apprenticeship) => (
-            <ApprenticeshipCard
+            <div
               key={apprenticeship.id}
-              apprenticeship={apprenticeship}
-              isSelected={apprenticeship.id === selectedId}
-              onClick={() => onSelect(apprenticeship.id)}
-            />
+              ref={(el) => {
+                if (el) cardRefs.current.set(apprenticeship.id, el);
+                else cardRefs.current.delete(apprenticeship.id);
+              }}
+            >
+              <ApprenticeshipCard
+                apprenticeship={apprenticeship}
+                isSelected={apprenticeship.id === selectedId}
+                onClick={() => onSelect(apprenticeship.id)}
+              />
+            </div>
           ))
         )}
       </div>
