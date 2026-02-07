@@ -42,8 +42,9 @@ export function useReachability(
       }
 
       // Compute arrivals at all reachable stops
-      const now = new Date();
-      now.setHours(8, 0, 0, 0); // Use 8:00 AM as default departure
+      // Use a date within the GTFS validity period (2024-12-15 to 2025-12-18)
+      // TODO: Update GTFS data for current year and remove this workaround
+      const now = new Date('2025-06-11T08:00:00');
 
       const arrivals = await computeArrivals(nearestStop.id, now, maxMinutes);
 

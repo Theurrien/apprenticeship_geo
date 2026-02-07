@@ -12,8 +12,8 @@ function App() {
   const [maxMinutes, setMaxMinutes] = useState(30);
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
-  const { apprenticeships, isLoading: isLoadingData } = useApprenticeships();
-  const { reachable, isochrone, isComputing } = useReachability(
+  const { apprenticeships, isLoading: isLoadingData, error: dataError } = useApprenticeships();
+  const { reachable, isochrone, isComputing, error: routingError } = useReachability(
     startPoint,
     maxMinutes,
     apprenticeships
@@ -50,6 +50,7 @@ function App() {
           selectedId={selectedId}
           onSelect={setSelectedId}
           isLoading={isLoadingData || isComputing}
+          error={dataError || routingError || null}
         />
       </div>
     </div>
