@@ -23,9 +23,10 @@ dist-ssr
 *.sln
 *.sw?
 
-# Large binary data files
-public/data/timetable.bin
-public/data/stops.bin
+# GTFS source data (large zips)
 
 # GTFS source data
 scripts/*.zip
+
+# Claude data
+AGENTS.md
