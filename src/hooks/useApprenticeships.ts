@@ -9,7 +9,7 @@ export function useApprenticeships() {
   useEffect(() => {
     async function loadData() {
       try {
-        const response = await fetch('/data/apprenticeships.json');
+        const response = await fetch(`${import.meta.env.BASE_URL}data/apprenticeships.json`);
         if (!response.ok) {
           throw new Error('Failed to load apprenticeship data');
         }

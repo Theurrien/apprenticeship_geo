@@ -24,9 +24,10 @@ async function initialize(): Promise<void> {
   initPromise = (async () => {
     console.log('Loading transit data...');
 
+    const base = import.meta.env.BASE_URL || '/';
     const [timetableData, stopsData] = await Promise.all([
-      fetchBinaryData('/data/timetable.bin'),
-      fetchBinaryData('/data/stops.bin'),
+      fetchBinaryData(`${base}data/timetable.bin`),
+      fetchBinaryData(`${base}data/stops.bin`),
     ]);
 
     const timetable = Timetable.fromData(new Uint8Array(timetableData));
